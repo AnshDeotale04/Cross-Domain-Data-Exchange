@@ -2,7 +2,7 @@
 
 **A federated database system enabling secure cross-cluster queries while maintaining strict data ownership boundaries.**
 
----
+----
 
 ## 🎯 The Problem
 
