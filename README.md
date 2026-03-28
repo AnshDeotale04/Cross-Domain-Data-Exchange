@@ -16,7 +16,7 @@ Organizations with distributed databases face a fundamental challenge: how do yo
 
 **CDDX solves this with a lightweight pointer registry.**
 
----
+----
 
 ## 💡 How It Works
 
