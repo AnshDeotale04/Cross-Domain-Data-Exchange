@@ -157,7 +157,7 @@ Multi-party tracking with proprietary data protection. Downstream partners verif
 ## 🔒 Design Principles
 
 **1. Data Sovereignty First**  
-Only the owning cluster can write entity data. The registry is read-only for external clusters.
+Only the owning cluster can write entity data. The registry is read-only for external clusters..
 
 **2. No Replication**  
 Cross-cluster queries fetch data on-demand. Requesting cluster never stores foreign entities permanently.
