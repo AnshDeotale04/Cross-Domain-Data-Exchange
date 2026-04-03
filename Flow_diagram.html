@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CDDX Architecture Diagram</title>
+<style>
+  body {
+    margin: 0;
+    padding: 40px;
+    background: #0f172a;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  
+  .diagram {
+    background: #1e293b;
+    border-radius: 16px;
+    padding: 48px;
+    max-width: 1200px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  }
+  
+  .title {
+    text-align: center;
+    color: #f1f5f9;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+  }
+  
+  .subtitle {
+    text-align: center;
+    color: #94a3b8;
+    font-size: 16px;
+    margin-bottom: 48px;
+  }
+  
+  .layer {
+    margin-bottom: 40px;
+  }
+  
+  .layer-title {
+    color: #10b981;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .layer-title::before {
+    content: '';
+    width: 4px;
+    height: 16px;
+    background: #10b981;
+    border-radius: 2px;
+  }
+  
+  .components {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  
+  .component {
+    background: #334155;
+    border: 2px solid #475569;
+    border-radius: 12px;
+    padding: 24px;
+    position: relative;
+    transition: all 0.3s;
+  }
+  
+  .component:hover {
+    border-color: #10b981;
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(16, 185, 129, 0.15);
+  }
+  
+  .component.cluster {
+    border-color: #3b82f6;
+  }
+  
+  .component.cluster:hover {
+    border-color: #60a5fa;
+  }
+  
+  .component.registry {
+    border-color: #f59e0b;
+  }
+  
+  .component.registry:hover {
+    border-color: #fbbf24;
+  }
+  
+  .component-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #10b981, #059669);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+  
+  .cluster .component-icon {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+  }
+  
+  .registry .component-icon {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+  }
+  
+  .component-name {
+    color: #f1f5f9;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  
+  .component-desc {
+    color: #cbd5e1;
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  
+  .tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  
+  .tech-tag {
+    background: #1e293b;
+    color: #94a3b8;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+  
+  .flow-section {
+    margin-top: 48px;
+    padding-top: 48px;
+    border-top: 2px solid #334155;
+  }
+  
+  .flow-title {
+    color: #f1f5f9;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+  
+  .flow-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    position: relative;
+  }
+  
+  .flow-step {
+    background: #334155;
+    border: 2px solid #475569;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+    position: relative;
+  }
+  
+  .step-number {
+    background: #10b981;
+    color: #0f172a;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    margin: 0 auto 12px;
+  }
+  
+  .step-text {
+    color: #e2e8f0;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  
+  .arrow {
+    color: #10b981;
+    font-size: 24px;
+    align-self: center;
+    display: none;
+  }
+  
+  @media (min-width: 768px) {
+    .flow-steps {
+      grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+    }
+    .arrow {
+      display: block;
+    }
+  }
+  
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 32px;
+  }
+  
+  .stat {
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .stat-value {
+    color: #10b981;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  
+  .stat-label {
+    color: #94a3b8;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+</style>
+</head>
+<body>
+
+<div class="diagram">
+  <div class="title">CDDX Architecture</div>
+  <div class="subtitle">Cross-Domain Distributed Exchange • Federated Database System</div>
+  
+  <!-- Registry Layer -->
+  <div class="layer">
+    <div class="layer-title">Discovery Layer</div>
+    <div class="components">
+      <div class="component registry">
+        <div class="component-icon">🗂️</div>
+        <div class="component-name">Central Registry Server</div>
+        <div class="component-desc">Pointer lookup service. Tracks entity ownership without storing data.</div>
+        <div class="tech-stack">
+          <span class="tech-tag">FastAPI</span>
+          <span class="tech-tag">Python</span>
+        </div>
+      </div>
+      
+      <div class="component">
+        <div class="component-icon">📊</div>
+        <div class="component-name">etcd</div>
+        <div class="component-desc">Distributed key-value store. Durable pointer storage with Raft consensus.</div>
+        <div class="tech-stack">
+          <span class="tech-tag">Raft</span>
+          <span class="tech-tag">Strong Consistency</span>
+        </div>
+      </div>
+      
+      <div class="component">
+        <div class="component-icon">⚡</div>
+        <div class="component-name">Redis</div>
+        <div class="component-desc">In-memory cache. Sub-millisecond pointer lookups for hot queries.</div>
+        <div class="tech-stack">
+          <span class="tech-tag">Cache</span>
+          <span class="tech-tag">TTL: 5min</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Cluster Layer -->
+  <div class="layer">
+    <div class="layer-title">Cluster Layer</div>
+    <div class="components">
+      <div class="component cluster">
+        <div class="component-icon">🛡️</div>
+        <div class="component-name">Aegis Cluster</div>
+        <div class="component-desc">Independent cluster node. Owns and manages its entity database with full CRUD operations.</div>
+        <div class="tech-stack">
+          <span class="tech-tag">FastAPI</span>
+          <span class="tech-tag">PostgreSQL</span>
+          <span class="tech-tag">Port 8001</span>
+        </div>
+      </div>
+      
+      <div class="component cluster">
+        <div class="component-icon">🔷</div>
+        <div class="component-name">Winston Cluster</div>
+        <div class="component-desc">Independent cluster node. Owns and manages its entity database with full CRUD operations.</div>
+        <div class="tech-stack">
+          <span class="tech-tag">FastAPI</span>
+          <span class="tech-tag">PostgreSQL</span>
+          <span class="tech-tag">Port 8002</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Cross-Cluster Query Flow -->
+  <div class="flow-section">
+    <div class="flow-title">Cross-Cluster Query Flow</div>
+    
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="step-number">1</div>
+        <div class="step-text">Winston detects entity owned by Aegis</div>
+      </div>
+      
+      <div class="arrow">→</div>
+      
+      <div class="flow-step">
+        <div class="step-number">2</div>
+        <div class="step-text">Query CRS: "Who owns this entity?"</div>
+      </div>
+      
+      <div class="arrow">→</div>
+      
+      <div class="flow-step">
+        <div class="step-number">3</div>
+        <div class="step-text">CRS returns: "Aegis at port 8001"</div>
+      </div>
+      
+      <div class="arrow">→</div>
+      
+      <div class="flow-step">
+        <div class="step-number">4</div>
+        <div class="step-text">Winston fetches data directly from Aegis</div>
+      </div>
+    </div>
+    
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-value">7</div>
+        <div class="stat-label">Services Running</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">&lt;1ms</div>
+        <div class="stat-label">Cached Lookup</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">&lt;50ms</div>
+        <div class="stat-label">Cold Lookup</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">0</div>
+        <div class="stat-label">Data Replication</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
